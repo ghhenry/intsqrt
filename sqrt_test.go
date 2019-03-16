@@ -2,6 +2,7 @@ package intsqrt
 
 import (
 	"fmt"
+	"math/big"
 	"testing"
 )
 
@@ -69,6 +70,17 @@ func BenchmarkSqrt64(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		r := Sqrt64(40000000000000000)
 		if r != 200000000 {
+			fmt.Println("wrong result")
+		}
+	}
+}
+
+func BenchmarkSqrtBig(b *testing.B) {
+	v := new(big.Int).SetUint64(40000000000000000)
+	exp := big.NewInt(200000000)
+	for n := 0; n < b.N; n++ {
+		r := new(big.Int).Sqrt(v)
+		if r.Cmp(exp) != 0 {
 			fmt.Println("wrong result")
 		}
 	}
